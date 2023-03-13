@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>颜色随机</title>
+  </head>
+  <body>
+    <script>
+      function randomColor(a = 1) {
+        let r = Math.floor(Math.random() * 256);
+        let g = Math.floor(Math.random() * 256);
+        let b = Math.floor(Math.random() * 256);
+        return `rgba(${r},${g},${b},${a})`;
+      }
+      function randomColor2() {
+        return `#${Math.random().toString(16).slice(2, 8)}`;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>对象数组去重</title>
+  </head>
+  <body>
+    <script>
+      const equals = (a, b) => {
+        if (a === b) return true;
+        if (a instanceof Date && b instanceof Date) return a.getTime() === b.getTime();
+        if (!a || !b || (typeof a !== 'object' && typeof b !== 'object')) return a === b;
+        if (a === null || a === undefined || b === null || b === undefined) return false;
+        if (a.prototype !== b.prototype) return false;
+        let keys = Object.keys(a);
+        if (keys.length !== Object.keys(b).length) return false;
+        return keys.every((k) => equals(a[k], b[k]));
+      };
+
+      const uniqueDeep = (arr) => {
+        let result = [];
+        for (let i = 0, len = arr.length; i < len; i++) {
+          let isFinded = false;
+          for (let k = 0; k < result.length; k++) {
+            if (equals(arr[i], result[k])) {
+              isFinded = true;
+              break;
+            }
+          }
+          if (!isFinded) {
+            result.push(arr[i]);
+          }
+        }
+        return result;
+      };
+    </script>
+  </body>
+</html>
