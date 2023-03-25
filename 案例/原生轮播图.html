@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>原生轮播图</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /*多行文本溢出隐藏*/
+      .text-more {
+        width: 100px;
+        height: 100px;
+        border: 1px solid #000;
+        overflow: hidden;
+        line-height: 20px;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+      }
+
+      .container {
+        width: 500px;
+        height: 300px;
+        border: 1px solid;
+        margin: 100px auto;
+        overflow: hidden;
+        position: relative;
+      }
+      .content {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        transition: all 0.5s;
+      }
+
+      .item {
+        width: 100%;
+        height: 100%;
+      }
+      .content div img {
+        width: 500px;
+        height: 300px;
+      }
+      .dian {
+        position: absolute;
+        bottom: 10px;
+        display: flex;
+        gap: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .dian span {
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .dian span.active {
+        background-color: blue;
+      }
+      .right,
+      .left {
+        position: absolute;
+        background: red;
+        top: 50%;
+        border-radius: 8px;
+        padding: 3px;
+        cursor: pointer;
+      }
+      .right {
+        right: 0;
+      }
+    </style>
+
+    <div class="text-more">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis iure, hic est eligendi fugit quaerat
+      provident quam pariatur eius commodi vitae, illo dignissimos, dicta rerum laudantium? Nulla molestias veniam nihil
+    </div>
+
+    <div class="container">
+      <div class="content">
+        <div class="item item1">
+          <img
+            src="https://images.unsplash.com/photo-1558979158-65a1eaa08691?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+            alt=""
+          />
+        </div>
+        <div class="item item2">
+          <img
+            src="https://images.unsplash.com/photo-1572276596237-5db2c3e16c5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+            alt=""
+          />
+        </div>
+        <div class="item item3">
+          <img
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80"
+            alt=""
+          />
+        </div>
+        <div class="item item4">
+          <img
+            src="https://images.unsplash.com/photo-1551009175-8a68da93d5f9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="dian">
+        <span class="active"></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <span class="left">&lt;</span>
+      <span class="right">&gt;</span>
+    </div>
+
+    <script>
+      let curIndex = 0;
+      const doms = {
+        contentDom: document.querySelector('.content'),
+        dianDoms: document.querySelectorAll('.dian>span'),
+        leftDom: document.querySelector('.left'),
+        rightDom: document.querySelector('.right'),
+      };
+      function moveToItem(index) {
+        doms.contentDom.style.transition = '0.5s';
+        doms.contentDom.style.transform = `translateX(-${index}00%)`;
+        const activeDom = document.querySelector('.dian>span.active');
+        activeDom.classList.remove('active');
+        doms.dianDoms[index].classList.add('active');
+        curIndex = index;
+      }
+
+      [...doms.dianDoms].forEach((item, i) => {
+        item.onclick = function () {
+          moveToItem(i);
+        };
+      });
+
+      doms.leftDom.onclick = function () {
+        console.log('left');
+        if (curIndex === 0) {
+          doms.contentDom.style.transition = 'none';
+          doms.contentDom.style.transform = `translateX(-${doms.dianDoms.length}00%)`;
+          doms.contentDom.clientHeight;
+          moveToItem(doms.dianDoms.length - 1);
+          return;
+        }
+        moveToItem(curIndex - 1);
+      };
+
+      const runRight = function () {
+        console.log('right');
+        if (curIndex === doms.dianDoms.length - 1) {
+          doms.contentDom.style.transition = 'none';
+          doms.contentDom.style.transform = 'translateX(100%)';
+          doms.contentDom.clientHeight;
+          moveToItem(0);
+          return;
+        }
+        moveToItem(curIndex + 1);
+      };
+
+      doms.rightDom.onclick = runRight;
+
+      function init() {
+        const firstEl = document.importNode(doms.contentDom.firstElementChild, true);
+        const lastEl = doms.contentDom.lastElementChild.cloneNode(true);
+        doms.contentDom.appendChild(firstEl);
+        const newFirst = doms.contentDom.insertBefore(lastEl, doms.contentDom.firstElementChild);
+        newFirst.style.cssText = 'position: absolute;transform: translateX(-100%);';
+      }
+      init();
+
+      function always() {
+        setInterval(() => {
+          runRight();
+        }, 3000);
+      }
+
+      always();
+    </script>
+  </body>
+</html>
