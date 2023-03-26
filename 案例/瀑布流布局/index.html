@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>瀑布流布局</title>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #000;
+      }
+      .text {
+        color: #000;
+        text-align: center;
+        font-size: 50px;
+        margin: 50px 0;
+        text-shadow: 1px 0 #fff, 1px 1px #fff, 1px -1px #fff, 0 1px #fff, 0 -1px #fff, -1px 0 #fff, -1px -1px #fff,
+          -1px 1px #fff;
+      }
+      #container {
+        width: 95%;
+        position: relative;
+        border: 2px solid #fff;
+        margin: 0 auto;
+      }
+
+      #container img {
+        position: absolute;
+        width: 220px;
+        transition: all 0.5s;
+      }
+    </style>
+
+    <div class="text">瀑布流布局</div>
+
+    <div id="container"></div>
+    <script src="./index.js"></script>
+  </body>
+</html>

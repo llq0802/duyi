@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0,minimum-scale=1,maximum-scale=1,user-scalable=0"
+    />
+    <link rel="stylesheet" href="./button.css" />
+    <title>按钮流边效果</title>
+  </head>
+  <body>
+
+<style>
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  /* align-items: flex-start; */
+  width: 100%;
+  min-height: 100vh;
+  background: antiquewhite;
+}
+
+main {
+  flex: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header,
+footer {
+  height: 50px;
+  background-color: aliceblue;
+}
+
+.btn {
+  margin: auto;
+  padding: 20px 0;
+  width: 200px;
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  background-color: #000;
+  /* outline: 4px solid #fff; */
+  font-size: 24px;
+  border-radius: 5px;
+  border: 0;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  background-color: red;
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  z-index: -1;
+  left: 50%;
+  top: 50%;
+  transform-origin: 0 0;
+  animation: rotate 3s infinite linear;
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  background-color: #000;
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  top: 3px;
+  left: 3px;
+  z-index: -1;
+  border-radius: 5px;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+img {
+  aspect-ratio: 480/299;
+}
+</style>
+
+    <div id="root">
+        <button class="btn">按钮流变</button>
+      </main>
+    </div>
+  </body>
+</html>
