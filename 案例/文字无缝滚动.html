@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>文字无缝滚动</title>
+  </head>
+  <body>
+    <style>
+      .container {
+        width: 300px;
+        margin: 100px auto;
+        height: 30px;
+        border: 1px solid;
+        overflow: hidden;
+        transition: 0.5s;
+      }
+
+      .item {
+        height: 30px;
+        line-height: 30px;
+      }
+    </style>
+    <div class="container">
+      <div class="item">1: Lorem ipsum dolor sit.</div>
+      <div class="item">2: Lorem ipsum dolor sit.</div>
+      <div class="item">3: Lorem ipsum dolor sit.</div>
+      <div class="item">4: Lorem ipsum dolor sit.</div>
+    </div>
+
+    <script>
+      (function () {
+        const listDom = document.querySelector('.container');
+        const firstDom = listDom.children[0];
+        const newDom = firstDom.cloneNode(true);
+        listDom.appendChild(newDom);
+
+        const duration = 2000;
+        setInterval(moveNext, duration);
+
+        let curIndex = 0;
+        const itemHeight = 30;
+        function moveNext() {
+          let from = curIndex * itemHeight; //开始滚动的高度
+          curIndex++;
+          const to = curIndex * itemHeight; //下一次滚动的高度
+          const totalDuration = 500; // 变化总时间
+          const gapDuration = 10; // 变化的间隔时间
+          const changeCount = totalDuration / gapDuration; //变化的次数
+          const dis = (to - from) / changeCount; //每次变化的量
+
+          let timerId = setInterval(() => {
+            from += dis;
+            if (from >= to) {
+              clearInterval(timerId);
+              if (curIndex === listDom.children.length - 1) {
+                from = 0;
+                curIndex = 0;
+              }
+            }
+            listDom.scrollTop = from;
+          }, gapDuration);
+        }
+      })();
+
+      // function run() {
+      //   requestAnimationFrame((ev) => {
+      //     setTimeout(() => {
+      //       console.log('requestAnimationFrame ');
+      //       run();
+      //     }, 1000);
+      //   });
+      // }
+      // run();
+
+      // function run2() {
+      //   console.log(' requestAnimationFrame');
+      //   requestAnimationFrame(run2);
+      // }
+      // run2();
+    </script>
+  </body>
+</html>
