@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>背景渐变动画</title>
+  </head>
+  <style>
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0px;
+      background: inherit;
+      border-radius: inherit;
+      z-index: -1;
+      filter: blur(20px);
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      background: #000;
+      border-radius: inherit;
+    }
+
+    .card {
+      background-image: linear-gradient(0deg, #5ddcff, #3c67e3 43%, #4e00c2);
+    }
+  </style>
+  <body>
+    <div class="card"></div>
+  </body>
+</html>
