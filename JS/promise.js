@@ -38,42 +38,60 @@ class MyPromise {
     this.#runThen();
   }
 
- /**
-  * 判断是否符合PromiseA+规范
-  * @returns 
-  */ 
-#isPromiseLike(){
+  /**
+   * 判断是否符合PromiseA+规范
+   * @returns 
+   */
+  #isPromiseLike(data) {
+    if (data !== null && (typeof data === 'object' || typeof data === 'function')) {
+      return typeof data.then === 'function'
+    }
+    return false
+  }
 
-  return false;
-}
+  /**
+   * 模拟实现微队列
+   * @param {*} func 
+   */
+  #runMicroTask(func) {
+    if (typeof process === 'object' && typeof process.nextTick === 'function') {
 
-/**
- * 模拟实现微队列
- * @param {*} func 
- */
-#runMicroTask(func){
-  setTimeout(func,0)
-}
+      process.nextTick(func)
+
+    } else if (typeof MutationObserver === 'function') {
+
+      const ob = new MutationObserver(func)
+      const textNode = document.createTextNode('1')
+      ob.observe(textNode, {
+        characterData: true
+      })
+      textNode.data = '2'
+
+    } else {
+      setTimeout(func, 0)
+
+    }
+
+    +
+
+  }
 
 
   #runOne(callback, resolve, reject) {
-
-
-
-    this.#runMicroTask(()=>{
+    this.#runMicroTask(() => {
 
       if (typeof callback !== 'function') {
-        const settled = this.#state === FULFILLED?:resolve : reject
+        const settled = this.#state === FULFILLED ?: resolve : reject
         settled(this.#result);
         return
-      } 
+      }
 
       try {
         const data = onFulfilled(this.#result);
 
-        if(this.#isPromiseLike()){
-
-        }else{
+        if (this.#isPromiseLike(data)) {
+          data.then(resolve, reject)
+        } else {
           resolve(data);
         }
 
@@ -115,7 +133,7 @@ class MyPromise {
     });
   }
 }
-
+A +
 
 
 // 使用
