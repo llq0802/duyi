@@ -1,17 +1,34 @@
 const containeDom = document.getElementById('container');
 const imgWidth = 220; //每张图片固定宽度
 
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+// 创建图片函数
 function creatImages() {
+  // 创建文档片段
   const fragment = document.createDocumentFragment();
+  // 循环创建40个图片
   for (let i = 0; i < 40; i++) {
+    // 定义图片路径
     const src = './aaa.jpg';
+    // 创建图片元素
     const img = document.createElement('img');
+    // 设置图片路径
     img.src = src;
+    // 将图片添加到文档片段中
     fragment.appendChild(img);
+    // 加载图片完成后执行函数
     img.onload = () => {
+      // 设置图片位置
       setPoisions();
+
     };
   }
+  // 将文档片段添加到容器中
   containeDom.appendChild(fragment);
 }
 creatImages();
